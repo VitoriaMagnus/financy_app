@@ -1,5 +1,9 @@
 import 'package:financy_app/common/constants/app_colors.dart';
+import 'package:financy_app/common/constants/app_text_style.dart';
 import 'package:flutter/material.dart';
+
+import '../../common/widgets/multi_text_button.dart';
+import '../../common/widgets/primary_button.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
@@ -7,21 +11,58 @@ class OnboardingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: ListView(
         children: [
-          const SizedBox(height: 60.0),
-          Expanded(
-            flex: 2,
-            child: Container(
-              color: AppColors.iceWithe,
-              child: Image.asset('/images/man.png'),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              height: 150,
-              color: Colors.white,
-            ),
+          Column(
+            children: [
+              Container(
+                color: AppColors.iceWithe,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 64.0, left: 8, right: 8),
+                  child: Image.asset(
+                    'assets/images/man.png',
+                    fit: BoxFit.fill,
+                    alignment: Alignment.bottomCenter,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 24.0),
+                child: Text(
+                  'Spend Smarter',
+                  style: AppTextStyle.mediumText
+                      .copyWith(color: AppColors.greenLight),
+                ),
+              ),
+              Text('Save More',
+                  style: AppTextStyle.mediumText
+                      .copyWith(color: AppColors.greenLight)),
+              Padding(
+                padding: const EdgeInsets.only(top: 24.0, bottom: 16.0),
+                child: PrimaryButton(
+                  onPressed: () {},
+                  text: 'Get Stardted',
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 40.0),
+                child: MultiTextButton(
+                  onPressed: () {},
+                  children: [
+                    Text(
+                      'Already have account? ',
+                      style: AppTextStyle.smallText
+                          .copyWith(color: AppColors.darkGrey),
+                    ),
+                    Text(
+                      'Log in',
+                      style: AppTextStyle.smallText
+                          .copyWith(color: AppColors.green),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ],
       ),
