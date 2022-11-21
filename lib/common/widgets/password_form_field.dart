@@ -1,19 +1,22 @@
-import 'dart:developer';
-
-import 'package:financy_app/features/sing_up/sing_up_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'custom_text_form_field.dart';
 
 class PasswordFormField extends StatefulWidget {
   final TextEditingController? controller;
   final EdgeInsetsGeometry? padding;
   final String? hintText;
   final String? labelText;
+  final FormFieldValidator<String>? validator;
+  final String? helperText;
   const PasswordFormField({
     super.key,
     this.controller,
     this.padding,
     this.hintText,
     this.labelText,
+    this.validator,
+    this.helperText,
   });
 
   @override
@@ -25,11 +28,13 @@ class _PasswordFormFieldState extends State<PasswordFormField> {
   @override
   Widget build(BuildContext context) {
     return CustomTextFormField(
+      validator: widget.validator,
       obscureText: isHidden,
       controller: widget.controller,
       padding: widget.padding,
       hintText: widget.hintText,
       labelText: widget.labelText,
+      helperText: widget.helperText,
       suffixIcon: InkWell(
         borderRadius: BorderRadius.circular(25),
         onTap: () {

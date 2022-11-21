@@ -1,15 +1,26 @@
+import 'dart:developer';
+
+import 'package:financy_app/common/utils/uppercase_text_formatter.dart';
+import 'package:financy_app/common/utils/validator.dart';
 import 'package:financy_app/common/widgets/multi_text_button.dart';
 import 'package:financy_app/common/widgets/password_form_field.dart';
 import 'package:financy_app/common/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 import '../../common/constants/app_colors.dart';
 import '../../common/constants/app_text_style.dart';
+import '../../common/widgets/custom_text_form_field.dart';
 
-class SingUpScreen extends StatelessWidget {
+class SingUpScreen extends StatefulWidget {
   const SingUpScreen({super.key});
+
+  @override
+  State<SingUpScreen> createState() => _SingUpScreenState();
+}
+
+class _SingUpScreenState extends State<SingUpScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -33,25 +44,53 @@ class SingUpScreen extends StatelessWidget {
             ),
             Image.asset('assets/images/sing_up.png'),
             Form(
-                child: Column(
-              children: [
-                CustomTextFormField(
-                  labelText: 'your name',
-                  hintText: 'Iran Doe',
-                ),
-                PasswordFormField(
-                  labelText: 'choose yout password',
-                  hintText: '*******',
-                ),
-                PasswordFormField(
-                  labelText: 'confirm your password',
-                  hintText: '*******',
-                ),
-              ],
-            )),
+              key: _formKey,
+              child: Column(
+                children: [
+                  CustomTextFormField(
+                    labelText: 'your name',
+                    hintText: 'JOHN DOE',
+                    inputFormatters: [
+                      UpperCaseTextInputFormatter(),
+                    ],
+                    validator: Validator.validateName,
+                  ),
+                  CustomTextFormField(
+                    labelText: 'your email',
+                    hintText: 'email@email.com',
+                    validator: Validator.validateEmail,
+                  ),
+                  PasswordFormField(
+                    controller: _passwordController,
+                    helperText:
+                        'Must have at least 8 characters, 1 capital letter and 1 number.',
+                    labelText: 'choose yout password',
+                    hintText: '*******',
+                    validator: Validator.validatePassword,
+                  ),
+                  PasswordFormField(
+                    labelText: 'confirm your password',
+                    hintText: '*******',
+                    validator: (value) => Validator.validateConfirmPassword(
+                        value!, _passwordController.text),
+                  ),
+                ],
+              ),
+            ),
             Padding(
-              padding: const EdgeInsets.only(top: 32.0),
-              child: PrimaryButton(text: 'Sing Up'),
+              padding: const EdgeInsets.only(top: 16.0),
+              child: PrimaryButton(
+                text: 'Sing Up',
+                onPressed: () {
+                  final valid = _formKey.currentState != null &&
+                      _formKey.currentState!.validate();
+                  if (valid) {
+                    log('Continuar logia de login!');
+                  } else {
+                    log('erro ao logar!');
+                  }
+                },
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 32.0),
@@ -72,78 +111,6 @@ class SingUpScreen extends StatelessWidget {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class CustomTextFormField extends StatefulWidget {
-  final EdgeInsetsGeometry? padding;
-  final String? hintText;
-  final String? labelText;
-  final TextCapitalization? textCapitalization;
-  final TextEditingController? controller;
-  final TextInputType? keyboardType;
-  final int? maxLength;
-  final TextInputAction? textInputAction;
-  final Widget? suffixIcon;
-  final bool? obscureText;
-
-  const CustomTextFormField({
-    Key? key,
-    this.padding,
-    this.hintText,
-    this.labelText,
-    this.textCapitalization,
-    this.controller,
-    this.keyboardType,
-    this.maxLength,
-    this.textInputAction,
-    this.suffixIcon,
-    this.obscureText,
-  }) : super(key: key);
-
-  @override
-  State<CustomTextFormField> createState() => _CustomTextFormFieldState();
-}
-
-class _CustomTextFormFieldState extends State<CustomTextFormField> {
-  final defaultBorder = const OutlineInputBorder(
-    borderSide: BorderSide(
-      color: AppColors.green,
-    ),
-  );
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: widget.padding ??
-          const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-      child: TextFormField(
-        obscureText: widget.obscureText ?? false,
-        textInputAction: widget.textInputAction,
-        maxLength: widget.maxLength,
-        keyboardType: widget.keyboardType,
-        controller: widget.controller,
-        textCapitalization:
-            widget.textCapitalization ?? TextCapitalization.none,
-        decoration: InputDecoration(
-          suffixIcon: widget.suffixIcon,
-          hintText: widget.hintText,
-          floatingLabelBehavior: FloatingLabelBehavior.always,
-          labelText: widget.labelText!.toUpperCase(),
-          labelStyle:
-              AppTextStyle.inputLabelText.copyWith(color: AppColors.grey),
-          focusedBorder: defaultBorder,
-          errorBorder: defaultBorder.copyWith(
-            borderSide: const BorderSide(color: Colors.red),
-          ),
-          focusedErrorBorder: defaultBorder.copyWith(
-            borderSide: const BorderSide(color: Colors.red),
-          ),
-          enabledBorder: defaultBorder,
-          disabledBorder: defaultBorder,
         ),
       ),
     );

@@ -26,7 +26,7 @@ class PrimaryButton extends StatelessWidget {
         ),
         child: InkWell(
           borderRadius: _borderRadius,
-          onTap: () {},
+          onTap: onPressed,
           child: Padding(
             padding: const EdgeInsets.only(
                 top: 20.0, bottom: 20.0, left: 10.0, right: 10.0),
