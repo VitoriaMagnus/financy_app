@@ -5,11 +5,16 @@ import 'package:financy_app/common/utils/validator.dart';
 import 'package:financy_app/common/widgets/multi_text_button.dart';
 import 'package:financy_app/common/widgets/password_form_field.dart';
 import 'package:financy_app/common/widgets/primary_button.dart';
+import 'package:financy_app/features/sing_up/sing_up_controller.dart';
+import 'package:financy_app/features/sing_up/sing_up_state.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/constants/app_colors.dart';
 import '../../common/constants/app_text_style.dart';
+import '../../common/widgets/custom_bottom_sheet.dart';
+import '../../common/widgets/custom_circular_progress_indicator.dart';
 import '../../common/widgets/custom_text_form_field.dart';
+import '../../services/mock_auth_service.dart';
 
 class SingUpScreen extends StatefulWidget {
   const SingUpScreen({super.key});
@@ -20,7 +25,56 @@ class SingUpScreen extends StatefulWidget {
 
 class _SingUpScreenState extends State<SingUpScreen> {
   final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _controller = SingUpController(MockAuthService());
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(
+      () {
+        if (_controller.state is SingUpLoadingState) {
+          showDialog(
+            context: context,
+            builder: (context) => const CustomCircularProgressIndicator(),
+          );
+        }
+        if (_controller.state is SingUpSuccessState) {
+          Navigator.pop(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const Scaffold(
+                body: Center(
+                  child: Text('Nova Tela!'),
+                ),
+              ),
+            ),
+          );
+        }
+        if (_controller.state is SingUpErrorState) {
+          final error = _controller.state as SingUpErrorState;
+          Navigator.pop(context);
+          customModalBottomSheet(
+            context,
+            content: error.message,
+            buttonText: 'Tentar novamente.',
+          );
+        }
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +102,7 @@ class _SingUpScreenState extends State<SingUpScreen> {
               child: Column(
                 children: [
                   CustomTextFormField(
+                    controller: _nameController,
                     labelText: 'your name',
                     hintText: 'JOHN DOE',
                     inputFormatters: [
@@ -56,6 +111,7 @@ class _SingUpScreenState extends State<SingUpScreen> {
                     validator: Validator.validateName,
                   ),
                   CustomTextFormField(
+                    controller: _emailController,
                     labelText: 'your email',
                     hintText: 'email@email.com',
                     validator: Validator.validateEmail,
@@ -85,7 +141,11 @@ class _SingUpScreenState extends State<SingUpScreen> {
                   final valid = _formKey.currentState != null &&
                       _formKey.currentState!.validate();
                   if (valid) {
-                    log('Continuar logia de login!');
+                    _controller.singUp(
+                      name: _nameController.text,
+                      email: _emailController.text,
+                      password: _passwordController.text,
+                    );
                   } else {
                     log('erro ao logar!');
                   }

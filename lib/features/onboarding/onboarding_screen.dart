@@ -1,13 +1,20 @@
 import 'package:financy_app/common/constants/app_colors.dart';
 import 'package:financy_app/common/constants/app_text_style.dart';
+import 'package:financy_app/common/constants/routes.dart';
+import 'package:financy_app/features/sing_up/sing_up_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/widgets/multi_text_button.dart';
 import '../../common/widgets/primary_button.dart';
 
-class OnboardingScreen extends StatelessWidget {
+class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
+  @override
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
+}
+
+class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +47,12 @@ class OnboardingScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 24.0, bottom: 16.0),
                 child: PrimaryButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(
+                      context,
+                      NamedRoute.signUp,
+                    );
+                  },
                   text: 'Get Stardted',
                 ),
               ),
