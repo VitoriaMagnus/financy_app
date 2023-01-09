@@ -14,7 +14,6 @@ import '../../common/constants/routes.dart';
 import '../../common/widgets/custom_bottom_sheet.dart';
 import '../../common/widgets/custom_circular_progress_indicator.dart';
 import '../../common/widgets/custom_text_form_field.dart';
-import '../../services/mock_auth_service.dart';
 import 'sing_in_controller.dart';
 
 class SingInScreen extends StatefulWidget {
