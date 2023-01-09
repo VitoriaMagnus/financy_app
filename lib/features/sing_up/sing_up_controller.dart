@@ -1,5 +1,7 @@
+import 'package:financy_app/common/models/user_model.dart';
 import 'package:financy_app/features/sing_up/sing_up_state.dart';
 import 'package:financy_app/services/auth_service.dart';
+import 'package:financy_app/services/secure_storage.dart';
 import 'package:flutter/material.dart';
 
 class SingUpController extends ChangeNotifier {
@@ -21,15 +23,25 @@ class SingUpController extends ChangeNotifier {
     required String email,
     required String password,
   }) async {
+    final secureStorage = SecureStorage();
+
     _changeState(SingUpStateLoading());
     try {
-      await _service.singUp(
+      final user = await _service.singUp(
         name: name,
         email: email,
         password: password,
       );
 
-      _changeState(SingUpStateSuccess());
+      if (user.id != null) {
+        await secureStorage.write(
+          key: 'CURRENT_USER',
+          value: user.toJson(),
+        );
+        _changeState(SingUpStateSuccess());
+      } else {
+        throw Exception();
+      }
     } catch (e) {
       _changeState(SingUpStateError(e.toString()));
     }
