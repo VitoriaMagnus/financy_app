@@ -47,4 +47,10 @@ class MockAuthService implements AuthService {
       throw 'Não foi possivel criar sua conta nesse momento. Tente mais tarde.';
     }
   }
+
+  @override
+  Future<void> singOut() {
+    // TODO: implement singOut
+    throw UnimplementedError();
+  }
 }

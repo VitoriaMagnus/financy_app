@@ -58,4 +58,13 @@ class FirebaseAuthService implements AuthService {
       rethrow;
     }
   }
+
+  @override
+  Future<void> singOut() async {
+    try {
+      await _auth.signOut();
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

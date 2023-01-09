@@ -26,9 +26,15 @@ class _SplashScreenState extends State<SplashScreen> {
     _splashController.isUserLogged();
     _splashController.addListener(() {
       if (_splashController.state is SplashStateSuccess) {
-        print('navegar para a home');
+        Navigator.pushReplacementNamed(
+          context,
+          NamedRoute.home,
+        );
       } else {
-        print('navegar para a onboarding');
+        Navigator.pushReplacementNamed(
+          context,
+          NamedRoute.initial,
+        );
       }
     });
   }

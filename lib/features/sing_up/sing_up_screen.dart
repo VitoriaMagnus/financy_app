@@ -53,15 +53,9 @@ class _SingUpScreenState extends State<SingUpScreen> {
         }
         if (_controller.state is SingUpStateSuccess) {
           Navigator.pop(context);
-          Navigator.push(
+          Navigator.pushReplacementNamed(
             context,
-            MaterialPageRoute(
-              builder: (context) => const Scaffold(
-                body: Center(
-                  child: Text('Nova Tela!'),
-                ),
-              ),
-            ),
+            NamedRoute.home,
           );
         }
         if (_controller.state is SingUpStateError) {
