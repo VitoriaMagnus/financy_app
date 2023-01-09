@@ -8,6 +8,7 @@ import 'package:financy_app/common/widgets/password_form_field.dart';
 import 'package:financy_app/common/widgets/primary_button.dart';
 import 'package:financy_app/features/sing_up/sing_up_controller.dart';
 import 'package:financy_app/features/sing_up/sing_up_state.dart';
+import 'package:financy_app/locator.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/constants/app_colors.dart';
@@ -29,7 +30,7 @@ class _SingUpScreenState extends State<SingUpScreen> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _controller = SingUpController(MockAuthService());
+  final _controller = locator.get<SingUpController>();
 
   @override
   void dispose() {
