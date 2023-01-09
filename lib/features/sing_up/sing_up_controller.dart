@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:financy_app/features/sing_up/sing_up_state.dart';
 import 'package:financy_app/services/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +7,7 @@ class SingUpController extends ChangeNotifier {
 
   SingUpController(this._service);
 
-  SingUpState _state = SingUpInitialState();
+  SingUpState _state = SingUpStateInitial();
 
   SingUpState get state => _state;
 
@@ -23,7 +21,7 @@ class SingUpController extends ChangeNotifier {
     required String email,
     required String password,
   }) async {
-    _changeState(SingUpLoadingState());
+    _changeState(SingUpStateLoading());
     try {
       await _service.singUp(
         name: name,
@@ -31,9 +29,9 @@ class SingUpController extends ChangeNotifier {
         password: password,
       );
 
-      _changeState(SingUpSuccessState());
+      _changeState(SingUpStateSuccess());
     } catch (e) {
-      _changeState(SingUpErrorState(e.toString()));
+      _changeState(SingUpStateError(e.toString()));
     }
   }
 }

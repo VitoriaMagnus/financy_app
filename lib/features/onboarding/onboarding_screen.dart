@@ -1,7 +1,6 @@
 import 'package:financy_app/common/constants/app_colors.dart';
 import 'package:financy_app/common/constants/app_text_style.dart';
 import 'package:financy_app/common/constants/routes.dart';
-import 'package:financy_app/features/sing_up/sing_up_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/widgets/multi_text_button.dart';
@@ -47,19 +46,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               Padding(
                 padding: const EdgeInsets.only(top: 24.0, bottom: 16.0),
                 child: PrimaryButton(
-                  onPressed: () {
-                    Navigator.pushReplacementNamed(
-                      context,
-                      NamedRoute.signUp,
-                    );
-                  },
-                  text: 'Get Stardted',
+                  onPressed: () => Navigator.pushReplacementNamed(
+                      context, NamedRoute.signUp),
+                  text: 'Get Started',
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 40.0),
                 child: MultiTextButton(
-                  onPressed: () {},
+                  onPressed: () =>
+                      Navigator.pushNamed(context, NamedRoute.singIn),
                   children: [
                     Text(
                       'Already have account? ',
@@ -67,7 +63,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           .copyWith(color: AppColors.darkGrey),
                     ),
                     Text(
-                      'Log in',
+                      'Sing In',
                       style: AppTextStyle.smallText
                           .copyWith(color: AppColors.green),
                     ),

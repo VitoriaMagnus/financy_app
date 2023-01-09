@@ -1,13 +1,13 @@
 abstract class SingUpState {}
 
-class SingUpInitialState extends SingUpState {}
+class SingUpStateInitial extends SingUpState {}
 
-class SingUpLoadingState extends SingUpState {}
+class SingUpStateLoading extends SingUpState {}
 
-class SingUpSuccessState extends SingUpState {}
+class SingUpStateSuccess extends SingUpState {}
 
-class SingUpErrorState extends SingUpState {
+class SingUpStateError extends SingUpState {
   final String message;
 
-  SingUpErrorState(this.message);
+  SingUpStateError(this.message);
 }
